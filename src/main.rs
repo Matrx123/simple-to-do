@@ -19,9 +19,6 @@ fn main() {
 
     let mut list = Todo::new();
     list.add(String::from("vipin joshi"));
-    list.add(String::from("jagmohan joshi"));
-    list.add(String::from("harish joshi"));
-    list.add(String::from("tulsi joshi"));
     let result = list.todo();
     println!("{:?}", result);
 }
