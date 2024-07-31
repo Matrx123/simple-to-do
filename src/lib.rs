@@ -17,6 +17,13 @@ impl Todo {
         &self.list
     }
 
+    pub fn get_by_id(&self, id: i32) -> Result<String, String> {
+        match self.list.get(&id) {
+            Some(&ref item) => Ok(item.to_string()),
+            _ => Err(String::from("Doesn't exist!")),
+        }
+    }
+
     pub fn add(&mut self, items: String) -> &str {
         self.list.insert(self.next_index, items);
         self.next_index += 1;
@@ -34,6 +41,8 @@ impl Todo {
 
 #[cfg(test)]
 mod tests {
+    use std::result;
+
     use super::*;
 
     fn setup() -> Todo {
@@ -62,6 +71,22 @@ mod tests {
         let list = setup();
         let result = list.get_all().len();
         assert_eq!(result, 4);
+    }
+
+    #[test]
+    fn fetch_item_by_id() {
+        let list = setup();
+        let result = list.get_by_id(1);
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), String::from("banana"));
+    }
+
+    #[test]
+    fn fetch_non_exist_item_by_id() {
+        let list = setup();
+        let result = list.get_by_id(20);
+        assert!(result.is_err());
+        assert_eq!(result.unwrap_err(), "Doesn't exist!")
     }
 
     #[test]
