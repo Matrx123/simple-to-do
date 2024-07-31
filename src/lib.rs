@@ -41,7 +41,6 @@ impl Todo {
 
 #[cfg(test)]
 mod tests {
-    use std::result;
 
     use super::*;
 
