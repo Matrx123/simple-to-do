@@ -16,15 +16,24 @@ fn main() {
             .expect("Something went wrong!!");
 
         let mut tokens = input.trim().split_whitespace();
+        let input_string: Vec<&str> = input.trim().split_whitespace().collect();
+
         match tokens.next() {
             Some(keyword) => match keyword {
                 "add" => {
-                    let input_string: Vec<&str> = input.trim().split_whitespace().collect();
                     let result: &str = list.add(input_string[1].to_string());
                     println!("{result}");
                 }
                 "get_all" => {
                     println!("ToDo List :: {:?}", list.get_all());
+                }
+                "get" => {
+                    let result = list.get_by_id(input_string[1].parse::<i32>().unwrap());
+                    if result.is_ok() {
+                        println!("Item : {:?}", result.unwrap());
+                    } else {
+                        println!("Item doesn't exist for this ID, please enter a valid ID");
+                    }
                 }
                 _ => println!(
                     "Please enter a valid TODO command, enter '--help' to see available commands!!"
