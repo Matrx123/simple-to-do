@@ -24,15 +24,23 @@ fn main() {
                     let result: &str = list.add(input_string[1].to_string());
                     println!("{result}");
                 }
-                "get_all" => {
+                "fetch_all" => {
                     println!("ToDo List :: {:?}", list.get_all());
                 }
-                "get" => {
+                "fetch_one" => {
                     let result = list.get_by_id(input_string[1].parse::<i32>().unwrap());
                     if result.is_ok() {
                         println!("Item : {:?}", result.unwrap());
                     } else {
                         println!("Item doesn't exist for this ID, please enter a valid ID");
+                    }
+                }
+                "delete_one" => {
+                    let result = list.delete(input_string[1].parse::<i32>().unwrap());
+                    if result.is_ok() {
+                        println!("Item Deleted!!");
+                    } else {
+                        println!("Item doesn't exists for this ID, please enter a valid ID");
                     }
                 }
                 _ => println!(
