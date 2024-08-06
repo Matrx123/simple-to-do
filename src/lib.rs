@@ -37,6 +37,17 @@ impl Todo {
             Err("Item not found!!")
         }
     }
+
+    pub fn update_one(&mut self, id: i32, text: &str) -> Result<&str, &str> {
+        if self.list.contains_key(&id) {
+            if let Some(item) = self.list.get_mut(&id) {
+                *item = String::from(text);
+            };
+            Ok("Item updated!!")
+        } else {
+            Err("Item doesn't exists, please enter a valid key!")
+        }
+    }
 }
 
 #[cfg(test)]
@@ -102,5 +113,24 @@ mod tests {
         let result = list.delete(10);
         assert!(result.is_err());
         assert_eq!(result.unwrap_err(), "Item not found!!");
+    }
+
+    #[test]
+    fn update_item_by_key() {
+        let mut list = setup();
+        let result = list.update_one(1, "updated text at index 1");
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), "Item updated!!");
+    }
+
+    #[test]
+    fn update_non_existing_entry() {
+        let mut list = setup();
+        let result = list.update_one(10, "updating item at location 10");
+        assert!(result.is_err());
+        assert_eq!(
+            result.unwrap_err(),
+            "Item doesn't exists, please enter a valid key!"
+        );
     }
 }
